@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ne">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>कागजात साइज कन्भर्टर (100KB - 500KB)</title>
+    <style>
+        body { font-family: sans-serif; background: #f0f2f5; margin: 0; padding: 20px; display: flex; justify-content: center; }
+        .card { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 100%; max-width: 450px; }
+        h2 { color: #333; text-align: center; margin-bottom: 20px; font-size: 22px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; color: #555; }
+        input[type="file"], select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; }
+        button { width: 100%; padding: 12px; background: #28a745; color: white; border: none; border-radius: 6px; font-size: 16px; cursor: pointer; font-weight: bold; margin-top: 10px; }
+        button:hover { background: #218838; }
+        .result-box { margin-top: 20px; text-align: center; display: none; border-top: 1px solid #eee; padding-top: 15px; }
+        img { max-width: 100%; max-height: 250px; border-radius: 6px; border: 1px solid #ddd; margin-top: 10px; }
+        .download-btn { display: inline-block; background: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 6px; margin-top: 15px; font-weight: bold; }
+        .download-btn:hover { background: #0056b3; }
+        .info { font-size: 14px; color: #666; margin-top: 5px; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2>📄 कागजात साइज मिलाउने टूल</h2>
+    
+    <div class="form-group">
+        <label for="imageInput">फोटो छान्नुहोस् (Camera वा Gallery):</label>
+        <input type="file" id="imageInput" accept="image/*">
+    </div>
+
+    <div class="form-group">
+        <label for="targetSize">चाहिएको अधिकतम साइज (Target Size):</label>
+        <select id="targetSize">
+            <option value="100">१०० KB (धेरैजसो अनलाइन फारम)</option>
+            <option value="200" selected>२०० KB (सुरक्षित साइज)</option>
+            <option value="300">३०० KB</option>
+            <option value="500">५०० KB (स्पष्ट फोटोको लागि)</option>
+        </select>
+    </div>
+
+    <button onclick="compressImage()">साइज सानो बनाउनुहोस्</button>
+
+    <div class="result-box" id="resultBox">
+        <p class="info" id="fileInfo"></p>
+        <img id="outputImage" alt="Resized Image">
+        <br>
+        <a id="downloadBtn" class="download-btn" download="resized-document.jpg">फाइल डाउनलोड गर्नुहोस्</a>
+    </div>
+</div>
+
+<script>
+    function compressImage() {
+        const fileInput = document.getElementById('imageInput');
+        const targetSizeKB = parseInt(document.getElementById('targetSize').value);
+        
+        if (fileInput.files.length === 0) {
+            alert('कृपया पहिले फोटो छान्नुहोस्!');
+            return;
+        }
+
+        const file = fileInput.files[0];
+        const reader = new FileReader();
+
+        reader.readAsDataURL(file);
+        reader.onload = function(event) {
+            const img = new Image();
+            img.src = event.target.result;
+            
+            img.onload = function() {
+                const canvas = document.createElement('canvas');
+                let ctx = canvas.getContext('2d');
+
+                // सुरुको साइज धेरै ठूलो भए, यसलाई अटो-रिसाइज गरेर पिक्सेल मिलाउने (डाइमेन्सन घटाउने)
+                let width = img.width;
+                let height = img.height;
+                const maxDimension = 1600; // अधिकतम सीमा
+
+                if (width > height && width > maxDimension) {
+                    height = Math.round((height * maxDimension) / width);
+                    width = maxDimension;
+                } else if (height > maxDimension) {
+                    width = Math.round((width * maxDimension) / height);
+                    height = maxDimension;
+                }
+
+                canvas.width = width;
+                canvas.height = height;
+                ctx.drawImage(img, 0, 0, width, height);
+
+                // बाइनरी सर्च वा लुप मार्फत टार्गेट साइज (जस्तै 200KB) भित्र ल्याउने कोसिस गर्ने
+                let minQuality = 0.05;
+                let maxQuality = 0.95;
+                let quality = 0.75;
+                let dataUrl = '';
+                let byteLength = 0;
+
+                // सही क्वालिटी पत्ता लगाउने लुप
+                for (let i = 0; i < 6; i++) {
+                    dataUrl = canvas.toDataURL('image/jpeg', quality);
+                    // Base64 string बाट वास्तविक साइज (Bytes) निकाल्ने
+                    const base64Len = dataUrl.length - (dataUrl.indexOf(',') + 1);
+                    byteLength = Math.round((base64Len * 3) / 4);
+
+                    if (byteLength > targetSizeKB * 1024) {
+                        maxQuality = quality;
+                        quality = (minQuality + quality) / 2;
+                    } else {
+                        minQuality = quality;
+                        quality = (quality + maxQuality) / 2;
+                    }
+                }
+
+                // नतिजा देखाउने
+                const finalSizeKB = (byteLength / 1024).toFixed(1);
+                document.getElementById('fileInfo').innerHTML = `सफलतापूर्वक साइज घटाइयो! <br><b>नयाँ साइज:</b> ${finalSizeKB} KB`;
+                document.getElementById('outputImage').src = dataUrl;
+                
+                const downloadBtn = document.getElementById('downloadBtn');
+                downloadBtn.href = dataUrl;
+                
+                document.getElementById('resultBox').style.display = 'block';
+            }
+        }
+    }
+</script>
+
+</body>
+</html>
