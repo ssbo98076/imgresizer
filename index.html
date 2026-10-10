@@ -3,32 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>कागजात साइज कन्भर्टर (100KB - 500KB)</title>
+    <title>बहु-फाइल कागजात साइज कन्भर्टर (Multiple Image Resizer)</title>
     <style>
         body { font-family: sans-serif; background: #f0f2f5; margin: 0; padding: 15px; display: flex; flex-direction: column; align-items: center; }
         
-        /* आफ्नै पसल वा सामानको विज्ञापन सेक्सन */
-        .custom-ad { background: white; border: 2px solid #ff9800; border-radius: 12px; padding: 12px; width: 100%; max-width: 450px; margin-bottom: 15px; text-align: center; box-sizing: border-box; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
-        .custom-ad img { width: 100%; max-height: 150px; object-fit: cover; border-radius: 8px; margin-top: 8px; border: 1px solid #ddd; }
-        .ad-title { font-size: 13px; color: #d32f2f; font-weight: bold; text-transform: uppercase; margin-bottom: 4px; }
-        .ad-link { display: inline-block; margin-top: 8px; background: #25D366; color: white; padding: 6px 12px; text-decoration: none; border-radius: 4px; font-size: 13px; font-weight: bold; }
+        /* Peaceful Study Room विशेष विज्ञापन सेक्सन */
+        .custom-ad { background: linear-gradient(135deg, #fff3e0, #ffe0b2); border: 2px solid #ff9800; border-radius: 12px; padding: 15px; width: 100%; max-width: 480px; margin-bottom: 15px; text-align: center; box-sizing: border-box; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+        .ad-badge { background: #e65100; color: white; padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: bold; text-transform: uppercase; display: inline-block; margin-bottom: 6px; }
+        .ad-title { font-size: 18px; color: #b71c1c; font-weight: bold; margin-bottom: 4px; }
+        .ad-subtitle { font-size: 14px; color: #333; font-weight: bold; margin-bottom: 8px; }
+        .ad-features { font-size: 13px; color: #444; background: white; padding: 10px; border-radius: 8px; text-align: left; margin: 8px 0; border: 1px dashed #ffa726; line-height: 1.5; }
+        .ad-price { font-size: 20px; color: #2e7d32; font-weight: bold; margin: 8px 0; }
+        .ad-image { width: 100%; max-height: 160px; object-fit: cover; border-radius: 8px; margin-top: 8px; border: 1px solid #ddd; }
+        .ad-link { display: inline-block; margin-top: 10px; background: #25D366; color: white; padding: 8px 16px; text-decoration: none; border-radius: 6px; font-size: 14px; font-weight: bold; }
         .ad-link:hover { background: #1ebe5d; }
 
-        .card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 100%; max-width: 450px; box-sizing: border-box; }
+        .card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 100%; max-width: 480px; box-sizing: border-box; }
         h2 { color: #333; text-align: center; margin-bottom: 15px; font-size: 20px; }
         .form-group { margin-bottom: 15px; }
         label { display: block; margin-bottom: 5px; font-weight: bold; color: #555; font-size: 14px; }
-        input[type="file"], select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; }
-        button { width: 100%; padding: 12px; background: #28a745; color: white; border: none; border-radius: 6px; font-size: 16px; cursor: pointer; font-weight: bold; margin-top: 10px; }
-        button:hover { background: #218838; }
-        .result-box { margin-top: 20px; text-align: center; display: none; border-top: 1px solid #eee; padding-top: 15px; }
-        .result-box img { max-width: 100%; max-height: 220px; border-radius: 6px; border: 1px solid #ddd; margin-top: 10px; }
-        .download-btn { display: inline-block; background: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 6px; margin-top: 15px; font-weight: bold; font-size: 14px; }
-        .download-btn:hover { background: #0056b3; }
-        .info { font-size: 14px; color: #666; margin-top: 5px; }
+        input[type="file"], input[type="number"] { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; }
+        
+        .btn-group { display: flex; gap: 10px; margin-top: 10px; }
+        button { flex: 1; padding: 12px; color: white; border: none; border-radius: 6px; font-size: 15px; cursor: pointer; font-weight: bold; }
+        .btn-camera { background: #ff9800; }
+        .btn-camera:hover { background: #f57c00; }
+        .btn-process { background: #28a745; margin-top: 10px; width: 100%; font-size: 16px; }
+        .btn-process:hover { background: #218838; }
+
+        /* नतिजा देखाउने भाग */
+        .result-container { margin-top: 20px; border-top: 1px solid #eee; padding-top: 15px; display: none; }
+        .result-item { background: #f9f9f9; border: 1px solid #e0e0e0; border-radius: 8px; padding: 10px; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+        .result-item img { width: 60px; height: 60px; object-fit: cover; border-radius: 4px; border: 1px solid #ccc; }
+        .file-details { flex-grow: 1; font-size: 13px; color: #333; }
+        .download-single { background: #007bff; color: white; padding: 6px 12px; text-decoration: none; border-radius: 4px; font-size: 12px; font-weight: bold; white-space: nowrap; }
+        .download-single:hover { background: #0056b3; }
 
         /* तलको Gboard सेक्सन */
-        .footer-section { background: #ffffff; padding: 15px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); width: 100%; max-width: 450px; margin-top: 20px; text-align: center; box-sizing: border-box; }
+        .footer-section { background: #ffffff; padding: 15px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); width: 100%; max-width: 480px; margin-top: 20px; text-align: center; box-sizing: border-box; }
         .footer-section h3 { font-size: 16px; color: #333; margin-bottom: 8px; }
         .footer-section p { font-size: 13px; color: #666; margin-bottom: 12px; }
         .gboard-btn { display: inline-block; background: #ff5722; color: white; padding: 10px 18px; text-decoration: none; border-radius: 6px; font-weight: bold; font-size: 14px; }
@@ -37,47 +49,59 @@
 </head>
 <body>
 
-<!-- 📢 यहाँ आफ्नो पसल वा सामानको विज्ञापन राख्नुहोस् -->
+<!-- 📢 Peaceful Study Room विशेष विज्ञापन सेक्सन -->
 <div class="custom-ad">
-    <div class="ad-title">⭐ Peaceful Study Room को विषेश अफर ⭐</div>
-    <p style="margin: 5px 0; font-size: 14px; font-weight: bold; color: #333;">Peaceful Study Room</p>
-    <p style="margin: 0; font-size: 12px; color: #666;">Peaceful Study Room मा भएको Computer System मात्र रु १५5०० मा लिनुहोस। साथमा एउटा Table 3 X 3 को Free मा पाउनुहोस</p>
+    <div class="ad-badge">✨ विशेष अफर / महा-बचत योजना ✨</div>
+    <div class="ad-title">Peaceful Study Room</div>
+    <div class="ad-subtitle">कम्प्यूटर सिस्टम तथा अध्ययन सामग्री बिक्रीमा!</div>
     
-    <!-- विज्ञापनको ब्यानर फोटो (Image Link वा फाइलको नाम राख्नुस्) 
-    <a href="https://yourwebsite.com" target="_blank">
-        <img src="https://via.placeholder.com/400x150?text=Yaha+Pasal+Ko+Photo+Raakhnu+Hos" alt="Advertisement Banner">
-    </a> -->
+    <div class="ad-features">
+        <b>💻 कम्प्युटर विशेषताहरू:</b><br>
+        • Windows 11 अपरेटिङ सिस्टम<br>
+        • 128GB SSD (फास्ट स्पीड)<br>
+        • 2GB RAM<br>
+        • पूर्ण कम्प्युटर सिस्टम (CPU, Monitor आदि)<br>
+        <hr style="border: 0; border-top: 1px solid #ffe0b2; margin: 6px 0;">
+        🎁 <b>विशेष उपहार (FREE):</b><br>
+        • एउटा <b>3 x 3 feet को बलियो काठको टेबल</b> पूर्ण रूपमा फ्रि!
+    </div>
+
+    <div class="ad-price">मूल्य मात्र: रु. १५,५००/-</div>
+    
+    <!-- विज्ञापनको फोटो (यसमा कम्प्युटर वा पसलको फोटो राख्न सक्नुहुन्छ) -->
+    <a href="https://wa.me/9779800000000" target="_blank">
+        <img src="https://via.placeholder.com/480x160?text=Peaceful+Study+Room+Computer+Offer" alt="Computer and Table Offer" class="ad-image">
+    </a>
     
     <br>
-    <!-- पसलको WhatsApp वा Facebook लिङ्क राख्ने बटन -->
-    <a href="https://wa.me/9779844567054" target="_blank" class="ad-link">💬 व्हाट्सएपमा कुरा गर्नुहोस्</a>
+    <a href="https://wa.me/9779800000000" target="_blank" class="ad-link">💬 अर्डर गर्न वा बुझ्न WhatsApp गर्नुहोस्</a>
 </div>
 
 <div class="card">
-    <h2>📄 कागजात साइज मिलाउने टूल</h2>
+    <h2>📄 बहु-फाइल कागजात साइज कन्भर्टर</h2>
     
     <div class="form-group">
-        <label for="imageInput">फोटो छान्नुहोस् (Camera वा Gallery):</label>
-        <input type="file" id="imageInput" accept="image/*">
+        <label>फोटोहरू छान्नुहोस् (एकभन्दा धेरै वा क्यामेरा):</label>
+        <input type="file" id="imageInput" accept="image/*" multiple>
+        
+        <div class="btn-group">
+            <button type="button" class="btn-camera" onclick="openCamera()">📷 क्यामेराबाट खिच्नुहोस्</button>
+        </div>
+        <input type="file" id="cameraInput" accept="image/*" capture="environment" style="display:none;" onchange="handleCameraCapture(this)">
     </div>
 
     <div class="form-group">
-        <label for="targetSize">चाहिएको अधिकतम साइज (Target Size):</label>
-        <select id="targetSize">
-            <option value="100">१०० KB (धेरैजसो अनलाइन फारम)</option>
-            <option value="200" selected>२०० KB (सुरक्षित साइज)</option>
-            <option value="300">३०० KB</option>
-            <option value="500">५०० KB (स्पष्ट फोटोको लागि)</option>
-        </select>
+        <label for="targetSize">चाहिएको अधिकतम साइज (KB मा टाइप गर्नुहोस्):</label>
+        <input type="number" id="targetSize" value="200" min="20" max="2000" placeholder="जस्तै: 150, 200, 300">
+        <small style="color: #666; font-size: 11px;">(उदाहरण: १०० KB चाहियो भने 100 टाइप गर्नुहोस्)</small>
     </div>
 
-    <button onclick="compressImage()">साइज सानो बनाउनुहोस्</button>
+    <button class="btn-process" onclick="compressImages()">सबै फोटोहरूको साइज घटाउनुहोस्</button>
 
-    <div class="result-box" id="resultBox">
-        <p class="info" id="fileInfo"></p>
-        <img id="outputImage" alt="Resized Image">
-        <br>
-        <a id="downloadBtn" class="download-btn" download="resized-document.jpg">फाइल डाउनलोड गर्नुहोस्</a>
+    <!-- नतिजा र डाउनलोड सेक्सन -->
+    <div class="result-container" id="resultContainer">
+        <h3 style="font-size: 15px; margin-top: 0; color: #333;">डाउनलोडको लागि तयार फाइलहरू:</h3>
+        <div id="resultList"></div>
     </div>
 </div>
 
@@ -89,73 +113,102 @@
 </div>
 
 <script>
-    function compressImage() {
+    function openCamera() {
+        document.getElementById('cameraInput').click();
+    }
+
+    function handleCameraCapture(input) {
+        if (input.files && input.files[0]) {
+            document.getElementById('imageInput').files = input.files;
+            alert('क्यामेराबाट फोटो सफलतापूर्वक लियो! अब "साइज घटाउनुहोस्" बटन थिच्नुहोस्।');
+        }
+    }
+
+    function compressImages() {
         const fileInput = document.getElementById('imageInput');
         const targetSizeKB = parseInt(document.getElementById('targetSize').value);
-        
+        const resultContainer = document.getElementById('resultContainer');
+        const resultList = document.getElementById('resultList');
+
         if (fileInput.files.length === 0) {
-            alert('कृपया पहिले फोटो छान्नुहोस्!');
+            alert('कृपया कम्तिमा एउटा फोटो छान्नुहोस् वा क्यामेराबाट खिच्नुहोस्!');
             return;
         }
 
-        const file = fileInput.files[0];
-        const reader = new FileReader();
-
-        reader.readAsDataURL(file);
-        reader.onload = function(event) {
-            const img = new Image();
-            img.src = event.target.result;
-            
-            img.onload = function() {
-                const canvas = document.createElement('canvas');
-                let ctx = canvas.getContext('2d');
-
-                let width = img.width;
-                let height = img.height;
-                const maxDimension = 1600;
-
-                if (width > height && width > maxDimension) {
-                    height = Math.round((height * maxDimension) / width);
-                    width = maxDimension;
-                } else if (height > maxDimension) {
-                    width = Math.round((width * maxDimension) / height);
-                    height = maxDimension;
-                }
-
-                canvas.width = width;
-                canvas.height = height;
-                ctx.drawImage(img, 0, 0, width, height);
-
-                let minQuality = 0.05;
-                let maxQuality = 0.95;
-                let quality = 0.75;
-                let dataUrl = '';
-                let byteLength = 0;
-
-                for (let i = 0; i < 6; i++) {
-                    dataUrl = canvas.toDataURL('image/jpeg', quality);
-                    const base64Len = dataUrl.length - (dataUrl.indexOf(',') + 1);
-                    byteLength = Math.round((base64Len * 3) / 4);
-
-                    if (byteLength > targetSizeKB * 1024) {
-                        maxQuality = quality;
-                        quality = (minQuality + quality) / 2;
-                    } else {
-                        minQuality = quality;
-                        quality = (quality + maxQuality) / 2;
-                    }
-                }
-
-                const finalSizeKB = (byteLength / 1024).toFixed(1);
-                document.getElementById('fileInfo').innerHTML = `सफलतापूर्वक साइज घटाइयो! <br><b>नयाँ साइज:</b> ${finalSizeKB} KB`;
-                document.getElementById('outputImage').src = dataUrl;
-                
-                const downloadBtn = document.getElementById('downloadBtn');
-                downloadBtn.href = dataUrl;
-                
-                document.getElementById('resultBox').style.display = 'block';
-            }
+        if (!targetSizeKB || targetSizeKB <= 0) {
+            alert('कृपया सही साइज (KB) टाइप गर्नुहोस्!');
+            return;
         }
+
+        resultList.innerHTML = '';
+        resultContainer.style.display = 'block';
+
+        Array.from(fileInput.files).forEach((file, index) => {
+            const reader = new FileReader();
+
+            reader.readAsDataURL(file);
+            reader.onload = function(event) {
+                const img = new Image();
+                img.src = event.target.result;
+
+                img.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    let ctx = canvas.getContext('2d');
+
+                    let width = img.width;
+                    let height = img.height;
+                    const maxDimension = 1600;
+
+                    if (width > height && width > maxDimension) {
+                        height = Math.round((height * maxDimension) / width);
+                        width = maxDimension;
+                    } else if (height > maxDimension) {
+                        width = Math.round((width * maxDimension) / height);
+                        height = maxDimension;
+                    }
+
+                    canvas.width = width;
+                    canvas.height = height;
+                    ctx.drawImage(img, 0, 0, width, height);
+
+                    let minQuality = 0.02;
+                    let maxQuality = 0.95;
+                    let quality = 0.75;
+                    let dataUrl = '';
+                    let byteLength = 0;
+
+                    for (let i = 0; i < 6; i++) {
+                        dataUrl = canvas.toDataURL('image/jpeg', quality);
+                        const base64Len = dataUrl.length - (dataUrl.indexOf(',') + 1);
+                        byteLength = Math.round((base64Len * 3) / 4);
+
+                        if (byteLength > targetSizeKB * 1024) {
+                            maxQuality = quality;
+                            quality = (minQuality + quality) / 2;
+                        } else {
+                            minQuality = quality;
+                            quality = (quality + maxQuality) / 2;
+                        }
+                    }
+
+                    const finalSizeKB = (byteLength / 1024).toFixed(1);
+                    const originalName = file.name.substring(0, file.name.lastIndexOf('.')) || 'document';
+                    const newFileName = `${originalName}_resized.jpg`;
+
+                    const itemDiv = document.createElement('div');
+                    itemDiv.className = 'result-item';
+                    itemDiv.innerHTML = `
+                        <img src="${dataUrl}" alt="Thumbnail">
+                        <div class="file-details">
+                            <b>${file.name.substring(0, 15)}...</b><br>
+                            नयाँ साइज: <span style="color: #28a745; font-weight: bold;">${finalSizeKB} KB</span>
+                        </div>
+                        <a href="${dataUrl}" class="download-single" download="${newFileName}">डाउनलोड</a>
+                    `;
+                    resultList.appendChild(itemDiv);
+                }
+            }
+        });
     }
 </script>
 
