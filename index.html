@@ -5,22 +5,53 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>कागजात साइज कन्भर्टर (100KB - 500KB)</title>
     <style>
-        body { font-family: sans-serif; background: #f0f2f5; margin: 0; padding: 20px; display: flex; justify-content: center; }
-        .card { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 100%; max-width: 450px; }
-        h2 { color: #333; text-align: center; margin-bottom: 20px; font-size: 22px; }
+        body { font-family: sans-serif; background: #f0f2f5; margin: 0; padding: 15px; display: flex; flex-direction: column; align-items: center; }
+        
+        /* आफ्नै पसल वा सामानको विज्ञापन सेक्सन */
+        .custom-ad { background: white; border: 2px solid #ff9800; border-radius: 12px; padding: 12px; width: 100%; max-width: 450px; margin-bottom: 15px; text-align: center; box-sizing: border-box; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .custom-ad img { width: 100%; max-height: 150px; object-fit: cover; border-radius: 8px; margin-top: 8px; border: 1px solid #ddd; }
+        .ad-title { font-size: 13px; color: #d32f2f; font-weight: bold; text-transform: uppercase; margin-bottom: 4px; }
+        .ad-link { display: inline-block; margin-top: 8px; background: #25D366; color: white; padding: 6px 12px; text-decoration: none; border-radius: 4px; font-size: 13px; font-weight: bold; }
+        .ad-link:hover { background: #1ebe5d; }
+
+        .card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 100%; max-width: 450px; box-sizing: border-box; }
+        h2 { color: #333; text-align: center; margin-bottom: 15px; font-size: 20px; }
         .form-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 5px; font-weight: bold; color: #555; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; color: #555; font-size: 14px; }
         input[type="file"], select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; }
         button { width: 100%; padding: 12px; background: #28a745; color: white; border: none; border-radius: 6px; font-size: 16px; cursor: pointer; font-weight: bold; margin-top: 10px; }
         button:hover { background: #218838; }
         .result-box { margin-top: 20px; text-align: center; display: none; border-top: 1px solid #eee; padding-top: 15px; }
-        img { max-width: 100%; max-height: 250px; border-radius: 6px; border: 1px solid #ddd; margin-top: 10px; }
-        .download-btn { display: inline-block; background: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 6px; margin-top: 15px; font-weight: bold; }
+        .result-box img { max-width: 100%; max-height: 220px; border-radius: 6px; border: 1px solid #ddd; margin-top: 10px; }
+        .download-btn { display: inline-block; background: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 6px; margin-top: 15px; font-weight: bold; font-size: 14px; }
         .download-btn:hover { background: #0056b3; }
         .info { font-size: 14px; color: #666; margin-top: 5px; }
+
+        /* तलको Gboard सेक्सन */
+        .footer-section { background: #ffffff; padding: 15px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); width: 100%; max-width: 450px; margin-top: 20px; text-align: center; box-sizing: border-box; }
+        .footer-section h3 { font-size: 16px; color: #333; margin-bottom: 8px; }
+        .footer-section p { font-size: 13px; color: #666; margin-bottom: 12px; }
+        .gboard-btn { display: inline-block; background: #ff5722; color: white; padding: 10px 18px; text-decoration: none; border-radius: 6px; font-weight: bold; font-size: 14px; }
+        .gboard-btn:hover { background: #e64a19; }
     </style>
 </head>
 <body>
+
+<!-- 📢 यहाँ आफ्नो पसल वा सामानको विज्ञापन राख्नुहोस् -->
+<div class="custom-ad">
+    <div class="ad-title">⭐ Peaceful Study Room को विषेश अफर ⭐</div>
+    <p style="margin: 5px 0; font-size: 14px; font-weight: bold; color: #333;">Peaceful Study Room</p>
+    <p style="margin: 0; font-size: 12px; color: #666;">Peaceful Study Room मा भएको Computer System मात्र रु १५5०० मा लिनुहोस। साथमा एउटा Table 3 X 3 को Free मा पाउनुहोस</p>
+    
+    <!-- विज्ञापनको ब्यानर फोटो (Image Link वा फाइलको नाम राख्नुस्) 
+    <a href="https://yourwebsite.com" target="_blank">
+        <img src="https://via.placeholder.com/400x150?text=Yaha+Pasal+Ko+Photo+Raakhnu+Hos" alt="Advertisement Banner">
+    </a> -->
+    
+    <br>
+    <!-- पसलको WhatsApp वा Facebook लिङ्क राख्ने बटन -->
+    <a href="https://wa.me/9779844567054" target="_blank" class="ad-link">💬 व्हाट्सएपमा कुरा गर्नुहोस्</a>
+</div>
 
 <div class="card">
     <h2>📄 कागजात साइज मिलाउने टूल</h2>
@@ -50,6 +81,13 @@
     </div>
 </div>
 
+<!-- तल Gboard APK Download Link सेक्सन -->
+<div class="footer-section">
+    <h3>⌨️ नेपाली टाइप, भ्वाइस टाइप र किबोर्ड</h3>
+    <p>मोबाइलमा सजिलै नेपाली टाइप गर्न आधिकारिक Gboard डाउनलोड गर्नुहोस्।</p>
+    <a href="https://play.google.com/store/apps/details?id=com.google.android.inputmethod.latin" target="_blank" class="gboard-btn">Gboard APK / Play Store डाउनलोड</a>
+</div>
+
 <script>
     function compressImage() {
         const fileInput = document.getElementById('imageInput');
@@ -72,10 +110,9 @@
                 const canvas = document.createElement('canvas');
                 let ctx = canvas.getContext('2d');
 
-                // सुरुको साइज धेरै ठूलो भए, यसलाई अटो-रिसाइज गरेर पिक्सेल मिलाउने (डाइमेन्सन घटाउने)
                 let width = img.width;
                 let height = img.height;
-                const maxDimension = 1600; // अधिकतम सीमा
+                const maxDimension = 1600;
 
                 if (width > height && width > maxDimension) {
                     height = Math.round((height * maxDimension) / width);
@@ -89,17 +126,14 @@
                 canvas.height = height;
                 ctx.drawImage(img, 0, 0, width, height);
 
-                // बाइनरी सर्च वा लुप मार्फत टार्गेट साइज (जस्तै 200KB) भित्र ल्याउने कोसिस गर्ने
                 let minQuality = 0.05;
                 let maxQuality = 0.95;
                 let quality = 0.75;
                 let dataUrl = '';
                 let byteLength = 0;
 
-                // सही क्वालिटी पत्ता लगाउने लुप
                 for (let i = 0; i < 6; i++) {
                     dataUrl = canvas.toDataURL('image/jpeg', quality);
-                    // Base64 string बाट वास्तविक साइज (Bytes) निकाल्ने
                     const base64Len = dataUrl.length - (dataUrl.indexOf(',') + 1);
                     byteLength = Math.round((base64Len * 3) / 4);
 
@@ -112,7 +146,6 @@
                     }
                 }
 
-                // नतिजा देखाउने
                 const finalSizeKB = (byteLength / 1024).toFixed(1);
                 document.getElementById('fileInfo').innerHTML = `सफलतापूर्वक साइज घटाइयो! <br><b>नयाँ साइज:</b> ${finalSizeKB} KB`;
                 document.getElementById('outputImage').src = dataUrl;
